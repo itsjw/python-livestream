@@ -4,7 +4,7 @@
             <h1>微电影管理系统</h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> movie management</a></li>
-                <li class="active">add movie</li>
+                <li class="active">edit movie</li>
             </ol>
         </section>
         <section class="content" id="showcontent">
@@ -12,20 +12,25 @@
                 <div class="col-md-12">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">add movie</h3>
+                            <h3 class="box-title">edit movie</h3>
                         </div>
                           <form role="form" method="post" enctype="multipart/form-data">
                             <div class="box-body">
                                 {%for msg in get_flashed_messages(category_filter=["ok"])%}
                                 <div class="alert alert-success alert-dismissible">
                                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                        <h4><i class="icon fa fa-check"></i> success!</h4>
-                                        {{msg}}
+                                        <h4><i class="icon fa fa-check"></i> movie edit success!</h4>
+                                </div>
+                                {%endfor%}
+                                {%for msg in get_flashed_messages(category_filter=["error"])%}
+                                <div class="alert alert-success alert-dismissible">
+                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        <h4><i class="icon fa fa-check"></i> {{msg}}!</h4>
                                 </div>
                                 {%endfor%}
                                 <div class="form-group">
                                     <label>{{form.title.label}}</label>
-                                    {{form.title}}
+                                    {{form.title(value=movie.title)}}
                                     {%for err in form.title.errors %}
                                          <div class="col-md-12">
                                              <font style="color:red"> {{err}}</font>
@@ -55,13 +60,13 @@
                                 </div>
                                 <div class="form-group">
                                     <label>{{form.logo.label}}</label>
-                                    {{form.logo}}
+                                    {{form.logo(value=movie.logo)}}
                                     {%for err in form.logo.errors %}
                                          <div class="col-md-12">
                                              <font style="color:red"> {{err}}</font>
                                          </div>
                                     {%endfor%}
-                                    <img data-src="holder.js/262x166" style="margin-top:5px;" class="img-responsive"
+                                    <img src="{{url_for('static',filename='uploads/'+movie.logo)}}" style="margin-top:5px;" class="img-responsive"
                                          alt="">
                                 </div>
                                 <div class="form-group">
@@ -74,7 +79,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>{{form.area.label}}</label>
-                                    {{form.area}}
+                                    {{form.area(value=movie.area)}}
                                     {%for err in form.area.errors %}
                                          <div class="col-md-12">
                                              <font style="color:red"> {{err}}</font>
@@ -83,7 +88,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>{{form.length.label}}</label>
-                                    {{form.length}}
+                                    {{form.length(value=movie.length)}}
                                     {%for err in form.length.errors %}
                                          <div class="col-md-12">
                                              <font style="color:red"> {{err}}</font>
@@ -92,7 +97,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>{{form.release_time.label}}</label>
-                                    {{form.release_time}}
+                                    {{form.release_time(value=movie.releasetime)}}
                                     {%for err in form.release_time.errors %}
                                          <div class="col-md-12">
                                              <font style="color:red"> {{err}}</font>
@@ -110,7 +115,6 @@
             </div>
         </section>
 {%endblock%}
-
 {%block js%}
 <script src="{{url_for('static',filename='jwplayer/jwplayer.js')}}"></script>
 <script type="text/javascript">
@@ -121,14 +125,14 @@
 	jwplayer("moviecontainer").setup({
 		flashplayer: "{{url_for('static',filename='jwplayer/jwplayer.flash.swf')}}",
 		playlist: [{
-			file: "",
-			title: ""
+			file: "{{url_for('static',filename='uploads/'+movie.url)}}",
+			title: "{{movie.title}}"
 		}],
 		modes: [{
 			type: "html5"
 		}, {
 			type: "flash",
-			src: ""
+			src: "{{url_for('static',filename='jwplayer/jwplayer.flash.swf')}}"
 		}, {
             type: "download"
         }],

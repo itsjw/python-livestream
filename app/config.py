@@ -1,5 +1,5 @@
 
-import datetime
+import datetime,os
 DEBUG=True
 SECRET_KEY="ee511"
 PERMANENT_SESSION_LIFETIME=datetime.timedelta(days=7)
@@ -11,3 +11,4 @@ port='3306'
 database='movie'
 SQLALCHEMY_DATABASE_URI="mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8".format(username,password,host,port,database)
 SQLALCHEMY_TRACK_MODIFICATIONS = True
+UP_DIR=os.path.join(os.path.abspath(os.path.dirname(__file__)),"static/uploads/")
