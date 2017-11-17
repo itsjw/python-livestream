@@ -4,8 +4,8 @@
     <section class="content-header">
             <h1>微电影管理系统</h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> 会员管理</a></li>
-                <li class="active">会员列表</li>
+                <li><a href="#"><i class="fa fa-dashboard"></i> user manage</a></li>
+                <li class="active">user list</li>
             </ol>
         </section>
         <section class="content" id="showcontent">
@@ -13,7 +13,7 @@
                 <div class="col-md-12">
                     <div class="box box-primary">
                         <div class="box-header">
-                            <h3 class="box-title">会员列表</h3>
+                            <h3 class="box-title">user list</h3>
                             <div class="box-tools">
                                 <div class="input-group input-group-sm" style="width: 150px;">
                                     <input type="text" name="table_search" class="form-control pull-right"
@@ -27,43 +27,51 @@
                             </div>
                         </div>
                         <div class="box-body table-responsive no-padding">
+                             {%for msg in get_flashed_messages(category_filter=["ok"])%}
+                                <div class="alert alert-success alert-dismissible">
+                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        <h4><i class="icon fa fa-check"></i> {{msg}}!</h4>
+                                </div>
+                            {%endfor%}
                             <table class="table table-hover">
                                 <tbody>
                                 <tr>
-                                    <th>编号</th>
-                                    <th>昵称</th>
-                                    <th>邮箱</th>
-                                    <th>手机</th>
-                                    <th>头像</th>
-                                    <th>状态</th>
-                                    <th>注册时间</th>
-                                    <th>操作事项</th>
+                                    <th>id</th>
+                                    <th>name</th>
+                                    <th>email</th>
+                                    <th>phone</th>
+                                    <th>face</th>
+                                    <th>state</th>
+                                    <th>addtime</th>
+                                    <th>event</th>
                                 </tr>
+                                {%for msg in page_data.items%}
                                 <tr>
-                                    <td>1</td>
-                                    <td>拓荒者</td>
-                                    <td>1780316635@qq.com</td>
-                                    <td>13700632835</td>
+                                    <td>{{msg.id}}</td>
+                                    <td>{{msg.name}}</td>
+                                    <td>{{msg.email}}</td>
+                                    <td>{{msg.phone}}</td>
+
+                                    <td><img src="{{url_for('static',filename='uploads/user/'+msg.face)}}" style="width:50px;"></td>
+                                    <td>state</td>
+                                    <td>{{msg.addtime}}</td>
+                                    <td>event</td>
                                     <td>
-                                        <img data-src="holder.js/50x50" class="img-responsive center-block" alt="">
-                                    </td>
-                                    <td>正常/冻结</td>
-                                    <td>2017-06-01 12:00:00</td>
-                                    <td>
-                                        <a class="label label-success" href="{{url_for('admin.user_view')}}">查看</a>
+                                        <a class="label label-success" href="{{url_for('admin.user_view',id=msg.id)}}">view</a>
                                         &nbsp;
-                                        <a class="label label-info">解冻</a>
+                                        <a class="label label-info">un-freeze</a>
                                         &nbsp;
-                                        <a class="label label-warning">冻结</a>
+                                        <a class="label label-warning">freeze</a>
                                         &nbsp;
-                                        <a class="label label-danger">删除</a>
+                                        <a class="label label-danger" href="{{url_for('admin.user_delete',id=msg.id)}}">delete</a>
                                     </td>
                                 </tr>
+                                {%endfor%}
                                 </tbody>
                             </table>
                         </div>
                         <div class="box-footer clearfix">
-                            <!--{{pg.page(page_data,'admin.user_list')}}-->
+                            {{pg.page(page_data,'admin.user_list')}}
                         </div>
                     </div>
                 </div>

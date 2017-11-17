@@ -1,8 +1,8 @@
 #coding:utf8
 from flask_wtf import FlaskForm
-from wtforms import StringField,PasswordField,SubmitField,FileField,TextAreaField,SelectField
+from wtforms import StringField,PasswordField,SubmitField,FileField,TextAreaField,SelectField,SelectMultipleField
 from wtforms.validators import DataRequired,ValidationError
-from app.models import Admin,Tag
+from app.models import Admin,Tag,Auth,Role
 
 class LoginForm(FlaskForm):
     account=StringField(
@@ -41,6 +41,7 @@ class LoginForm(FlaskForm):
         admin= Admin.query.filter_by(name=account).count()
         if admin==0:
             raise ValidationError("account not exist")
+
 class TagForm(FlaskForm):
     name=StringField(
         label="name",
@@ -163,5 +164,161 @@ class MovieForm(FlaskForm):
         label="add",
         render_kw={
             "class": "btn btn-primary"
+        }
+    )
+class PwdForm(FlaskForm):
+    old_pwd=PasswordField(
+        label="password",
+        validators=[
+            DataRequired("password empty")
+        ],
+        description="password",
+        render_kw={
+            "class": "form-control",
+            "placeholder": "input old password",
+            # "required": "required"
+        }
+    )
+    new_pwd = PasswordField(
+        label="password",
+        validators=[
+            DataRequired("password empty")
+        ],
+        description="password",
+        render_kw={
+            "class": "form-control",
+            "placeholder": "input new password",
+            # "required": "required"
+        }
+    )
+    submit = SubmitField(
+        label="edit",
+        render_kw={
+            "class": "btn btn-primary btn-block btn-flat"
+        }
+    )
+    def validate_oldpwd(self,field):
+        from flask import session
+        pwd=field.data
+        name=session["admin"]
+        admin= Admin.query.filter_by(name=name).first()
+        if not admin.check_pwd(pwd):
+            print("pwd wrong",pwd)
+            raise ValidationError("wrong password")
+
+class AuthForm(FlaskForm):
+    name = StringField(
+        label="auth_name",
+        validators=[
+            DataRequired("auth name empty")
+        ],
+        description="auth name",
+        render_kw={
+            "class": "form-control",
+            "id": "input_name",
+            "placeholder": "please input auth name！"
+        }
+    )
+    url = StringField(
+        label="url",
+        validators=[
+            DataRequired("url empty")
+        ],
+        description="url",
+        render_kw={
+            "class": "form-control",
+            "id": "input_name",
+            "placeholder": "please input url！"
+        }
+    )
+    submit = SubmitField(
+        label="add",
+        render_kw={
+            "class": "btn btn-primary"
+        }
+    )
+class RoleForm(FlaskForm):
+    auth_list=Auth.query.all()
+    name = StringField(
+        label="role_name",
+        validators=[
+            DataRequired("role name empty")
+        ],
+        description="role name",
+        render_kw={
+            "class": "form-control",
+            "id": "input_name",
+            "placeholder": "please input role name！"
+        }
+    )
+    auths_list = SelectMultipleField(
+        label="auths",
+        validators=[
+            DataRequired("auths empty")
+        ],
+        coerce=int,
+        choices=[(v.id,v.name) for v in auth_list],
+        description="auths list",
+        render_kw={
+            "class": "form-control"
+        }
+    )
+    submit = SubmitField(
+        label="add",
+        render_kw={
+            "class": "btn btn-primary"
+        }
+    )
+
+class AdminForm(FlaskForm):
+    role_list = Role.query.all()
+    name = StringField(
+        label="admin name",
+        validators=[
+            DataRequired("admin name empty")
+        ],
+        description="admin name",
+        render_kw={
+            "class": "form-control",
+            "placeholder": "input admin name",
+            # "required":"required"
+        }
+    )
+    pwd = PasswordField(
+        label="password",
+        validators=[
+            DataRequired("password empty")
+        ],
+        description="password",
+        render_kw={
+            "class": "form-control",
+            "placeholder": "input password",
+            # "required": "required"
+        }
+    )
+    r_pwd = PasswordField(
+        label="password",
+        validators=[
+            DataRequired("password empty")
+        ],
+        description="password",
+        render_kw={
+            "class": "form-control",
+            "placeholder": "input password",
+            # "required": "required"
+        }
+    )
+    role_id=SelectField(
+        label="role",
+        coerce=int,
+        choices=[(v.id,v.name) for v in role_list],
+        render_kw={
+            "class": "form-control",
+        }
+    )
+    submit = SubmitField(
+        label="login",
+        render_kw={
+            "class": "btn btn-primary btn-block btn-flat"
         }
     )

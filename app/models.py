@@ -23,6 +23,10 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %r>'%self.name
+    def check_pwd(self,pwd):
+        from werkzeug.security import check_password_hash
+        return check_password_hash(self.pwd,pwd)
+
 class UserLog(db.Model):
     __tablename__='userlog'
     id = db.Column(db.Integer, primary_key=True)
@@ -113,7 +117,7 @@ class Role(db.Model):
     name = db.Column(db.String(100), unique=True)
     auths = db.Column(db.String(600), unique=True)
     addtime = db.Column(db.DateTime, index=True, default=datetime.now)
-
+    admins=db.relationship("Admin",backref="role")
     def __repr__(self):
         return '<role %r>'%self.name
 
@@ -123,7 +127,7 @@ class Admin(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
     pwd = db.Column(db.String(100), nullable=False)
-    is_super=db.Column(db.SmallInteger,nullable=False)  #super=0
+    is_super=db.Column(db.SmallInteger,nullable=False)  #super=1
     role_id=db.Column(db.Integer,db.ForeignKey('role.id'))
     addtime = db.Column(db.DateTime, index=True, default=datetime.now)
 

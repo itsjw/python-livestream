@@ -19,15 +19,13 @@
                                 {%for msg in get_flashed_messages(category_filter=["ok"])%}
                                 <div class="alert alert-success alert-dismissible">
                                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                        <h4><i class="icon fa fa-check"></i> success!</h4>
-                                        {{msg}}
+                                        <h4><i class="icon fa fa-check"></i> {{msg}}!</h4>
                                 </div>
                                 {%endfor%}
                                 {%for msg in get_flashed_messages(category_filter=["error"])%}
                                 <div class="alert alert-warning alert-dismissible">
                                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                        <h4><i class="icon fa fa-check"></i> error!</h4>
-                                        {{msg}}
+                                        <h4><i class="icon fa fa-check"></i> {{msg}}!</h4>
                                 </div>
                                 {%endfor%}
                                 <div class="form-group">

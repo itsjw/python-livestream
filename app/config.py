@@ -1,6 +1,6 @@
 
 import datetime,os
-DEBUG=True
+DEBUG=False
 SECRET_KEY="ee511"
 PERMANENT_SESSION_LIFETIME=datetime.timedelta(days=7)
 

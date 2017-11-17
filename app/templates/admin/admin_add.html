@@ -14,31 +14,61 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">添加管理员</h3>
                         </div>
-                        <form role="form">
+                        <form role="form" method="post">
                             <div class="box-body">
+                                {%for msg in get_flashed_messages(category_filter=["ok"])%}
+                                <div class="alert alert-success alert-dismissible">
+                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        <h4><i class="icon fa fa-check"></i> {{msg}}!</h4>
+                                </div>
+                                {%endfor%}
+                                {%for msg in get_flashed_messages(category_filter=["error"])%}
+                                <div class="alert alert-warning alert-dismissible">
+                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        <h4><i class="icon fa fa-check"></i> {{msg}}!</h4>
+                                </div>
+                                {%endfor%}
+
                                 <div class="form-group">
-                                    <label for="input_name">管理员名称</label>
-                                    <input type="text" class="form-control" id="input_name" placeholder="请输入管理员名称！">
+                                    <label>admin name</label>
+                                    {{form.name}}
+                                    {%for err in form.name.errors%}
+                                        <div><div class="col-md-12">
+                                            <font style="color:red">{{err}}</font>
+                                        </div></div>
+                                    {%endfor%}
                                 </div>
                                 <div class="form-group">
-                                    <label for="input_pwd">管理员密码</label>
-                                    <input type="password" class="form-control" id="input_pwd" placeholder="请输入管理员密码！">
+                                    <label>password</label>
+                                    {{form.pwd}}
+                                    {%for err in form.pwd.errors%}
+                                        <div><div class="col-md-12">
+                                            <font style="color:red">{{err}}</font>
+                                        </div></div>
+                                    {%endfor%}
                                 </div>
                                 <div class="form-group">
-                                    <label for="input_re_pwd">管理员重复密码</label>
-                                    <input type="password" class="form-control" id="input_re_pwd"
-                                           placeholder="请输入管理员重复密码！">
+                                    <label>repeate password</label>
+                                    {{form.r_pwd}}
+                                    {%for err in form.r_pwd.errors%}
+                                        <div><div class="col-md-12">
+                                            <font style="color:red">{{err}}</font>
+                                        </div></div>
+                                    {%endfor%}
                                 </div>
                                 <div class="form-group">
-                                    <label for="input_role_id">所属角色</label>
-                                    <select class="form-control" id="input_role_id">
-                                        <option value="0">---请选择所属角色---</option>
-                                        <option value="1">xxx</option>
-                                    </select>
+                                    <label>role_id</label>
+                                    {{form.role_id}}
+                                    {%for err in form.role_id.errors%}
+                                        <div><div class="col-md-12">
+                                            <font style="color:red">{{err}}</font>
+                                        </div></div>
+                                    {%endfor%}
                                 </div>
                             </div>
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-primary">添加</button>
+                                {{form.csrf_token}}
+                                {{form.submit}}
                             </div>
                         </form>
                     </div>
