@@ -9,38 +9,68 @@
                 <h3 class="panel-title"><span class="glyphicon glyphicon-map-marker"></span>&nbsp;User Center</h3>
             </div>
             <div class="panel-body">
-                <form role="form">
-                    <fieldset>
+                 <form role="form" method="post">
+                     <fieldset>
                             <div class="form-group">
-                                <label for="input_name"><span class="glyphicon glyphicon-user"></span>&nbsp;User Name</label>
-                                <input id="input_name" class="form-control" placeholder="name" name="name" type="text" autofocus value="jinlong">
+                                <label><span class="glyphicon glyphicon-user"></span>&nbsp;User Name:&nbsp;&nbsp;{{username}}</label>
                             </div>
-                            <div class="col-md-12" id="error_name"></div>
                             <div class="form-group">
-                                <label for="input_email"><span class="glyphicon glyphicon-envelope"></span>&nbsp;Email</label>
-                                <input id="input_email" class="form-control" placeholder="email" name="email" type="email" autofocus value="1780316635@qq.com">
+                                <label><span class="glyphicon glyphicon-envelope"></span>&nbsp;Email</label>
+                                {{form.email}}
+                                {%for err in form.email.errors%}
+                                        <div><div class="col-md-12">
+                                            <font style="color:red">{{err}}</font>
+                                        </div></div>
+                                {%endfor%}
                             </div>
-                            <div class="col-md-12" id="error_email"></div>
                             <div class="form-group">
-                                <label for="input_phone"><span class="glyphicon glyphicon-phone"></span>&nbsp;Phone</label>
-                                <input id="input_phone" class="form-control" placeholder="phone" name="phone" type="text" autofocus value="13700632835">
+                                <label><span class="glyphicon glyphicon-phone"></span>&nbsp;Phone</label>
+                                {{form.phone}}
+                                    {%for err in form.phone.errors%}
+                                        <div><div class="col-md-12">
+                                            <font style="color:red">{{err}}</font>
+                                        </div></div>
+                                {%endfor%}
                             </div>
-                            <div class="col-md-12" id="error_phone"></div>
                             <div class="form-group">
-                                <label for="input_face"><span class="glyphicon glyphicon-picture"></span>&nbsp;Face</label>
+                                <label><span class="glyphicon glyphicon-picture"></span>&nbsp;Face</label>
+                                {%if user.face%}
+                                <img src="{{url_for('static',filename='uploads/user/'+user.face)}}" style="width:100px;"class="img-responsive img-rounded">
+                                {%else%}
                                 <img src="holder.js/100x100" class="img-responsive img-rounded">
-                                <a class="btn btn-primary" style="margin-top:6px;"><span class="glyphicon glyphicon-open"></span>&nbsp;UpLoad Face</a>
-                                <input id="input_face" class="form-control" name="face" type="hidden" autofocus>
+                                {%endif%}
+                                {{form.face}}
+                                {%for err in form.face.errors%}
+                                        <div><div class="col-md-12">
+                                            <font style="color:red">{{err}}</font>
+                                        </div></div>
+                                {%endfor%}
                             </div>
-                            <div class="col-md-12" id="error_face"></div>
                             <div class="form-group">
-                                <label for="input_info"><span class="glyphicon glyphicon-edit"></span>&nbsp;Information</label>
-                                <textarea class="form-control" rows="10" id="input_info">十年窗下无人问，一举成名天下知</textarea>
+                                <label><span class="glyphicon glyphicon-edit"></span>&nbsp;Information</label>
+                                {{form.info}}
+                                    {%for err in form.info.errors%}
+                                        <div><div class="col-md-12">
+                                            <font style="color:red">{{err}}</font>
+                                        </div></div>
+                                {%endfor%}
                             </div>
-                            <div class="col-md-12" id="error_info"></div>
-                        <a href="user.html" class="btn btn-success"><span class="glyphicon glyphicon-saved"></span>&nbsp;Save</a>
-                        </fieldset>
+                                {{form.csrf_token}}
+                                {{form.submit}}
+                     </fieldset>
                 </form>
+                {%for msg in get_flashed_messages(category_filter=["ok"])%}
+                                <div class="alert alert-success alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        <h4><i class="icon fa fa-check"></i> {{msg}}!</h4>
+                                </div>
+                {%endfor%}
+                {%for msg in get_flashed_messages(category_filter=["error"])%}
+                                <div class="alert alert-warning alert-dismissible">
+                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        <h4><i class="icon fa fa-check"></i> {{msg}}!</h4>
+                                </div>
+                {%endfor%}
             </div>
         </div>
     </div>
@@ -51,6 +81,5 @@
      $(document).ready(function(){
         $("#m1").addClass("active");
      });
-
  </script>
 {%endblock%}

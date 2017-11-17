@@ -73,7 +73,7 @@ class UserForm(FlaskForm):
             "class": "btn btn-primary btn-block btn-flat"
         }
     )
-class UserForm(FlaskForm):
+class UserInfo(FlaskForm):
     name = StringField(
         label="account",
         validators=[
@@ -113,10 +113,25 @@ class UserForm(FlaskForm):
         }
     )
     face=FileField(
-
+        label="face",
+        validators=[
+            DataRequired("please upload face！")
+        ],
+        description="face"
+    )
+    info = TextAreaField(
+        label="info",
+        validators=[
+            DataRequired("info empty")
+        ],
+        description="info",
+        render_kw={
+            "class": "form-control",
+            "rows": 10
+        }
     )
     submit = SubmitField(
-        label="signup",
+        label="save",
         render_kw={
             "class": "btn btn-primary btn-block btn-flat"
         }

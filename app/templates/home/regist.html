@@ -30,7 +30,6 @@
                                             <font style="color:red">{{err}}</font>
                                         </div></div>
                                     {%endfor%}                                       </div>
-                            <div class="col-md-12" id="error_name"></div>
                             <div class="form-group">
                                 <label ><span class="glyphicon glyphicon-envelope"></span>&nbsp;Email</label>
                                     {{form.email}}
@@ -39,7 +38,6 @@
                                             <font style="color:red">{{err}}</font>
                                         </div></div>
                                     {%endfor%}                                       </div>
-                            <div class="col-md-12" id="error_email"></div>
                             <div class="form-group">
                                 <label><span class="glyphicon glyphicon-phone"></span>&nbsp;Phone</label>
                                     {{form.phone}}
@@ -48,7 +46,6 @@
                                             <font style="color:red">{{err}}</font>
                                         </div></div>
                                     {%endfor%}                                       </div>
-                            <div class="col-md-12" id="error_phone"></div>
                             <div class="form-group">
                                 <label><span class="glyphicon glyphicon-lock"></span>&nbsp;PassWord</label>
                                     {{form.pwd}}
@@ -58,7 +55,6 @@
                                         </div></div>
                                     {%endfor%}
                             </div>
-                            <div class="col-md-12" id="error_password"></div>
                             <div class="form-group">
                                 <label><span class="glyphicon glyphicon-lock"></span>&nbsp;Comfirm PassWord</label>
                                     {{form.r_pwd}}
@@ -67,7 +63,6 @@
                                             <font style="color:red">{{err}}</font>
                                         </div></div>
                                     {%endfor%}                            </div>
-                            <div class="col-md-12" id="error_repassword"></div>
                                 {{form.csrf_token}}
                                 {{form.submit}}
                         </fieldset>
