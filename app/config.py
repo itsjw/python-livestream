@@ -12,3 +12,4 @@ database='movie'
 SQLALCHEMY_DATABASE_URI="mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8".format(username,password,host,port,database)
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 UP_DIR=os.path.join(os.path.abspath(os.path.dirname(__file__)),"static/uploads/")
+FC_DIR=os.path.join(os.path.abspath(os.path.dirname(__file__)),"static/uploads/user/")

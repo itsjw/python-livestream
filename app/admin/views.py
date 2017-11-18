@@ -1,6 +1,6 @@
 #encoding:utf8
 from . import admin
-from flask import Flask,render_template,redirect,url_for,flash,session,request,abort
+from flask import render_template,redirect,url_for,flash,session,request,abort
 from app.admin.forms import LoginForm,TagForm,MovieForm,PwdForm,AuthForm,RoleForm,AdminForm
 from app.models import Admin,Tag,Movie,User,Comment,Moviecol,OpLog,AdminLog,UserLog,Auth,Role
 from functools import wraps

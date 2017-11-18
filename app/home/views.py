@@ -1,12 +1,12 @@
 #encoding:utf8
 from . import home
 from flask import render_template,redirect,url_for,request,session,flash
-from app.models import UserLog,User
+from app.models import UserLog,User,Preview
 from app.home.forms import *
 from functools import wraps
 from app import db,app
-from werkzeug.security import generate_password_hash
-import uuid
+from werkzeug.security import generate_password_hash,check_password_hash
+import uuid,os,datetime
 
 def login_req(f):
     @wraps(f)
@@ -16,13 +16,14 @@ def login_req(f):
         return f(*args,**kwargs)
     return func
 
+def change_filename(filename):
+    file_info=os.path.splitext(filename)
+    filename=datetime.datetime.now().strftime("%Y%m%d%H%M%S")+str(uuid.uuid4().hex)+file_info[-1]
+    return filename
+
 @home.route('/')
 def index():
     return render_template("home/index.html")
-
-@home.route('/animation/')
-def animation():
-    return render_template("home/animation.html")
 
 @home.route('/login/',methods=["POST","GET"])
 def login():
@@ -95,7 +96,6 @@ def user():
     if request.method == "GET":
         if session.get('id'):
             user = User.query.get(int(session["id"]))
-            form.face.validators = []
             form.email.data = user.email
             form.phone.data = user.phone
             form.info.data = user.info
@@ -103,14 +103,53 @@ def user():
         else:
             return redirect(url_for("home.login"))
 
-    elif form.validate_on_submit():
+    user = User.query.get(int(session["id"]))
+    if form.validate_on_submit():
         data=form.data
-        return render_template("home/user.html",form=form)
+        if not os.path.exists(app.config["FC_DIR"]):
+            os.makedirs(app.config["FC_DIR"])
+            os.chmod(app.config["FC_DIR"],"rw")
+        if data["face"]:
+            form.face.data.save(app.config["FC_DIR"]+user.name)
 
-@home.route('/pwd/')
+
+        if User.query.filter_by(email=data["email"]).count()==0:
+            user.email = data["email"]
+        else:
+            flash("email exist", "error")
+
+        if User.query.filter_by(phone=data["phone"]).count()==0:
+            user.phone = data["phone"]
+        else:
+            flash("phone exist", "error")
+
+        user.info = data["info"]
+        db.session.add(user)
+        db.session.commit()
+        flash("edit success", "ok")
+        return redirect(url_for('home.user'))
+    return render_template("home/user.html",form=form,user=user)
+
+@home.route('/pwd/',methods=["POST","GET"])
 @login_req
 def pwd():
-    return render_template("home/pwd.html")
+    form=PwdForm()
+    if form.validate_on_submit():
+        data=form.data
+        user=User.query.filter(User.id==session["id"]).first()
+        if check_password_hash(user.pwd,data["old_pwd"]):
+            user.pwd=generate_password_hash(data["new_pwd"])
+            db.session.add(user)
+            db.session.commit()
+            flash("change password success", "ok")
+        else:
+            flash("old password wrong","error")
+    return render_template("home/pwd.html",form=form)
+
+
+@home.route('/animation/')
+def animation():
+    return render_template("home/animation.html")
 
 
 @home.route('/comments/')

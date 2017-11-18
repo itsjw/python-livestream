@@ -76,9 +76,6 @@ class UserForm(FlaskForm):
 class UserInfo(FlaskForm):
     name = StringField(
         label="account",
-        validators=[
-            DataRequired("account empty")
-        ],
         description="account name",
         render_kw={
             "class": "form-control",
@@ -112,13 +109,7 @@ class UserInfo(FlaskForm):
             # "required":"required"
         }
     )
-    face=FileField(
-        label="face",
-        validators=[
-            DataRequired("please upload face！")
-        ],
-        description="face"
-    )
+    face=FileField()
     info = TextAreaField(
         label="info",
         validators=[
@@ -132,6 +123,38 @@ class UserInfo(FlaskForm):
     )
     submit = SubmitField(
         label="save",
+        render_kw={
+            "class": "btn btn-primary btn-block btn-flat"
+        }
+    )
+
+class PwdForm(FlaskForm):
+    old_pwd=PasswordField(
+        label="password",
+        validators=[
+            DataRequired("password empty")
+        ],
+        description="password",
+        render_kw={
+            "class": "form-control",
+            "placeholder": "input old password",
+            # "required": "required"
+        }
+    )
+    new_pwd = PasswordField(
+        label="password",
+        validators=[
+            DataRequired("password empty")
+        ],
+        description="password",
+        render_kw={
+            "class": "form-control",
+            "placeholder": "input new password",
+            # "required": "required"
+        }
+    )
+    submit = SubmitField(
+        label="change",
         render_kw={
             "class": "btn btn-primary btn-block btn-flat"
         }
