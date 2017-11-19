@@ -13,3 +13,4 @@ SQLALCHEMY_DATABASE_URI="mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8".format(use
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 UP_DIR=os.path.join(os.path.abspath(os.path.dirname(__file__)),"static/uploads/")
 FC_DIR=os.path.join(os.path.abspath(os.path.dirname(__file__)),"static/uploads/user/")
+REDIS_URL = "redis://127.0.0.1:6379/0"

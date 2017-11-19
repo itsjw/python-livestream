@@ -159,3 +159,29 @@ class PwdForm(FlaskForm):
             "class": "btn btn-primary btn-block btn-flat"
         }
     )
+class CommentForm(FlaskForm):
+
+    info=TextAreaField(
+        label="info",
+        validators=[
+            DataRequired("info empty")
+        ],
+        description="info",
+        render_kw={
+            "rows": 10,
+            "id":"input_content"
+        }
+    )
+    submit = SubmitField(
+        render_kw={
+            "class":"btn btn-success",
+             "id":"btn-sub"
+        }
+    )
+    # collect = SubmitField(
+    #     label="collection",
+    #     render_kw={
+    #         "class": "btn btn-danger",
+    #         "id": "btn-col"
+    #     }
+    # )

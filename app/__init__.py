@@ -7,11 +7,14 @@ import pymysql
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash
 from app import config
+from flask_redis import FlaskRedis
 
 app=Flask(__name__)
 #app.config["SQLALCHEMY_DATABASE_URI"]="mysql+mysqldb://root:qaz123456@127.0.0.1:3306/movie"
 app.config.from_object(config)
 db=SQLAlchemy(app)
+
+rd=FlaskRedis(app)
 
 from app.home import home as home_blueprint
 from app.admin import admin as admin_blueprint

@@ -56,9 +56,9 @@ def login():
             return redirect(url_for('admin.login'))
         else:
             session["admin"]=data["account"]
-            session["id"]=admin.id
+            session["aid"]=admin.id
             adminlog = AdminLog(
-                admin_id=session["id"],
+                admin_id=session["aid"],
                 ip=request.remote_addr
             )
             db.session.add(adminlog)
@@ -111,7 +111,7 @@ def tag_add():
             db.session.commit()
             flash("tag add success","ok")
             oplog=OpLog(
-                admin_id=session["id"],
+                admin_id=session["aid"],
                 ip=request.remote_addr,
                 reason="add tag "+tag.name
             )
@@ -147,7 +147,7 @@ def tag_delete(id=None):
     db.session.delete(tag_del)
     db.session.commit()
     oplog = OpLog(
-        admin_id=session["id"],
+        admin_id=session["aid"],
         ip=request.remote_addr,
         reason="delete tag "+tag_del.name
     )
@@ -207,7 +207,7 @@ def movie_add():
         db.session.add(movie)
         db.session.commit()
         oplog = OpLog(
-            admin_id=session["id"],
+            admin_id=session["aid"],
             ip=request.remote_addr,
             reason="add movie "+movie.title
         )
@@ -230,7 +230,7 @@ def movie_delete(id=None):
     db.session.delete(movie_del)
     db.session.commit()
     oplog = OpLog(
-        admin_id=session["id"],
+        admin_id=session["aid"],
         ip=request.remote_addr,
         reason="delete movie "+movie_del.title
     )
@@ -282,7 +282,7 @@ def movie_edit(id):
         db.session.add(movie)
         db.session.commit()
         oplog = OpLog(
-            admin_id=session["id"],
+            admin_id=session["aid"],
             ip=request.remote_addr,
             reason="edit movie "+movie.title
         )
@@ -322,7 +322,7 @@ def user_delete(id=None):
     db.session.delete(user)
     db.session.commit()
     oplog = OpLog(
-        admin_id=session["id"],
+        admin_id=session["aid"],
         ip=request.remote_addr,
         reason="delete user "+user.name
     )
@@ -344,7 +344,7 @@ def comment_delete(id=None):
     db.session.delete(comment)
     db.session.commit()
     oplog = OpLog(
-        admin_id=session["id"],
+        admin_id=session["aid"],
         ip=request.remote_addr,
         reason="delete comment "+comment.content
     )
@@ -366,7 +366,7 @@ def moviecol_delete(id=None):
     db.session.delete(moviecol)
     db.session.commit()
     oplog = OpLog(
-        admin_id=session["id"],
+        admin_id=session["aid"],
         ip=request.remote_addr,
         reason="delete moviecol "+moviecol.user_id+" "+moviecol.movie_id
     )
@@ -410,7 +410,7 @@ def auth_add():
             db.session.commit()
             flash("auth add success", "ok")
             oplog = OpLog(
-                admin_id=session["id"],
+                admin_id=session["aid"],
                 ip=request.remote_addr,
                 reason="add auth " + auth.name
             )
@@ -432,7 +432,7 @@ def auth_list_delete(id=None):
     db.session.delete(auth_list)
     db.session.commit()
     oplog = OpLog(
-        admin_id=session["id"],
+        admin_id=session["aid"],
         ip=request.remote_addr,
         reason="delete auth_list "+auth_list.name
     )
@@ -458,7 +458,7 @@ def role_add():
             db.session.commit()
             flash("role add success", "ok")
             oplog = OpLog(
-                admin_id=session["id"],
+                admin_id=session["aid"],
                 ip=request.remote_addr,
                 reason="add role " + role.name
             )
@@ -481,7 +481,7 @@ def role_list_delete(id=None):
     db.session.delete(role_list)
     db.session.commit()
     oplog = OpLog(
-        admin_id=session["id"],
+        admin_id=session["aid"],
         ip=request.remote_addr,
         reason="delete role_list "+role_list.name
     )
@@ -511,7 +511,7 @@ def admin_add():
             db.session.commit()
             flash("admin add success", "ok")
             oplog = OpLog(
-                admin_id=session["id"],
+                admin_id=session["aid"],
                 ip=request.remote_addr,
                 reason="add role " + NewAdmin.name
             )
@@ -534,7 +534,7 @@ def admin_list_delete(id=None):
     db.session.delete(admin_list)
     db.session.commit()
     oplog = OpLog(
-        admin_id=session["id"],
+        admin_id=session["aid"],
         ip=request.remote_addr,
         reason="delete admin_list "+admin_list.name
     )

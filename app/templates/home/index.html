@@ -1,4 +1,5 @@
 {% extends "home/layout.html" %}
+{%import "ui/admin_page.html" as pg%}
 {%block content%}
 <!--热门电影-->
 <section id="hotmovie" style="margin-top:76px">
@@ -20,103 +21,73 @@
                     <tr>
                         <td style="width:10%;">Tags</td>
                         <td style="width:90%;">
-                            <a class="label label-info"><span class="glyphicon glyphicon-tag"></span>&nbsp;tag1</a>
-                            &nbsp;
-                            <a class="label label-info"><span class="glyphicon glyphicon-tag"></span>&nbsp;tag2</a>
-                    </tr>
+                            {%for v in tags%}
+                            <a href="{{url_for('home.index',page=1)}}?tid={{v.id}}&star={{p['star']}}&time={{p['time']}}&pn={{p['pn']}}&cn={{p['cn']}}" class="label label-info"><span class="glyphicon glyphicon-tag"></span>&nbsp;{{v.name}}</a>
+                            &nbsp
+                            {%endfor%}
                     <tr>
                         <td>Stars</td>
                         <td>
-                            <a class="label label-warning"><span class="glyphicon glyphicon-star"></span>&nbsp;1</a>
-                            &nbsp;
-                            <a class="label label-warning"><span class="glyphicon glyphicon-star"></span>&nbsp;2</a>
-                            &nbsp;
-                            <a class="label label-warning"><span class="glyphicon glyphicon-star"></span>&nbsp;3</a>
-                            &nbsp;
-                            <a class="label label-warning"><span class="glyphicon glyphicon-star"></span>&nbsp;4</a>
-                            &nbsp;
-                            <a class="label label-warning"><span class="glyphicon glyphicon-star"></span>&nbsp;5</a>
+                            {%for v in range(1,6)%}
+                            <a href="{{url_for('home.index',page=1)}}?tid={{p['tid']}}&star={{v}}&time={{p['time']}}&pn={{p['pn']}}&cn={{p['cn']}}"class="label label-warning"><span class="glyphicon glyphicon-star"></span>&nbsp{{v}}</a>
+                            &nbsp
+                            {%endfor%}
+
                         </td>
                     </tr>
                     <tr>
-                        <td>上映时间</td>
+                        <td>realse time</td>
                         <td>
-                            <a class="label label-default"><span class="glyphicon glyphicon-time"></span>&nbsp;Recent</span></a>
-                            &nbsp;
-                            <a class="label label-default"><span class="glyphicon glyphicon-time"></span>&nbsp;2017</span></a>
-                            &nbsp;
-                            <a class="label label-default"><span class="glyphicon glyphicon-time"></span>&nbsp;2016</span></a>
-                            &nbsp;
-                            <a class="label label-default"><span class="glyphicon glyphicon-time"></span>&nbsp;2015</span></a>
-                            &nbsp;
-                            <a class="label label-default"><span class="glyphicon glyphicon-time"></span>&nbsp;Earlier</span></a>
+
+                            <a href="{{url_for('home.index',page=1)}}?tid={{p['tid']}}&star={{p['star']}}&time=1&pn={{p['pn']}}&cn={{p['cn']}}" class="label label-default"><span class="glyphicon glyphicon-time"></span>&nbsp;Recent</span></a>
+                            &nbsp
+                            <a href="{{url_for('home.index',page=1)}}?tid={{p['tid']}}&star={{p['star']}}&time=2&pn={{p['pn']}}&cn={{p['cn']}}" class="label label-default"><span class="glyphicon glyphicon-time"></span>&nbsp;Early</span></a>
+                            &nbsp
+
                         </td>
                     </tr>
                     <tr>
                         <td>play times</td>
                         <td>
-                            <a class="label label-success"><span class="glyphicon glyphicon-arrow-down"></span>&nbsp;up to low</span></a>
+                            <a href="{{url_for('home.index',page=1)}}?tid={{p['tid']}}&star={{p['star']}}&time={{p['time']}}&pn=1&cn={{p['cn']}}"class="label label-success"><span class="glyphicon glyphicon-arrow-down"></span>&nbsp;up to low</span></a>
                             &nbsp;
-                            <a class="label label-danger"><span class="glyphicon glyphicon-arrow-up"></span>low to up</span></a>
+                            <a href="{{url_for('home.index',page=1)}}?tid={{p['tid']}}&star={{p['star']}}&time={{p['time']}}&pn=2&cn={{p['cn']}}"class="label label-danger"><span class="glyphicon glyphicon-arrow-up"></span>low to up</span></a>
                         </td>
                     </tr>
                     <tr>
                         <td>comment times</td>
                         <td>
-                            <a class="label label-success"><span class="glyphicon glyphicon-arrow-down"></span>&nbsp;up to low</span></a>
+                            <a href="{{url_for('home.index',page=1)}}?tid={{p['tid']}}&star={{p['star']}}&time={{p['time']}}&pn={{p['pn']}}&cn=1"class="label label-success"><span class="glyphicon glyphicon-arrow-down"></span>&nbsp;up to low</span></a>
                             &nbsp;
-                            <a class="label label-danger"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;low to u</span></a>
+                            <a href="{{url_for('home.index',page=1)}}?tid={{p['tid']}}&star={{p['star']}}&time={{p['time']}}&pn={{p['pn']}}&cn=2"class="label label-danger"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;low to u</span></a>
                         </td>
                     </tr>
                 </table>
             </div>
 
-            {% for i in range(6)%}
+            {% for v in page_data.items%}
             <div class="col-md-3">
                 <div class="movielist text-center">
                     <!--<img data-original="holder.js/262x166"
                              class="img-responsive lazy center-block" alt="">-->
-                    <img src="holder.js/262x166" class="img-responsive center-block" alt="">
+                    <img src="{{url_for('static',filename='uploads/'+v.logo)}}" style="width:262;" class="img-responsive center-block" alt="">
                     <div class="text-left" style="margin-left:auto;margin-right:auto;width:210px;">
-                        <span style="color:#999;font-style: italic;">环太平洋</span><br>
+                        <span style="color:#999;font-style: italic;">{{v.title}}</span><br>
                         <div>
+                            {%for s in range(v.star)%}
                             <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
-                            <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
-                            <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
-                            <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>
-                            <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>
+                            {%endfor%}
+                            <!--{%for s in range(5-v.star)%}-->
+                            <!--<span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>-->
+                            <!--{%endfor%}-->
                         </div>
                     </div>
-                    <a href="{{url_for('home.play')}}" class="btn btn-primary" target="_blank" role="button"><span class="glyphicon glyphicon-play"></span>&nbsp;播放</a>
+                    <a href="{{url_for('home.play',id=v.id,page=1)}}" class="btn btn-primary" target="_blank" role="button"><span class="glyphicon glyphicon-play"></span>&nbsp;Play</a>
                 </div>
             </div>
             {%endfor%}
             <div class="col-md-12">
-                <nav aria-label="Page navigation">
-                       <ul class="pagination">
-                            <li>
-                                <a href="#" aria-label="First">
-                                    <span aria-hidden="true">First</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" aria-label="Previous">
-                                    <span aria-hidden="true">Prev</span>
-                                </a>
-                            </li>
-                            <li><a href="#">1&nbsp;/&nbsp;10</a></li>
-                            <li>
-                                <a href="#" aria-label="Next">
-                                    <span aria-hidden="true">Next</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" aria-label="Last">
-                                    <span aria-hidden="true">Last</span>
-                                </a>
-                            </li>
-                        </ul>
-                </nav>
+                       {{pg.page(page_data,'home.index')}}
             </div>
         </div>
     </div>

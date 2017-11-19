@@ -88,7 +88,7 @@ class Comment(db.Model):
     addtime = db.Column(db.DateTime, index=True, default=datetime.now)
 
     def __repr__(self):
-        return '<Comment %r>'%self.title
+        return '<Comment %r>'%self.id
 
 class Moviecol(db.Model):
     __tablename__='moviecol'
