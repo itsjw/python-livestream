@@ -30,6 +30,8 @@ type command in terminal to install:
   sudo apt-get install python3-pip
 
   sudo apt-get install python-redis
+  
+  sudo apt-get install redis-server
 	
   sudo pip3 install flask
 	
