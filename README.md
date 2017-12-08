@@ -25,7 +25,9 @@ open browser
 
 type command in terminal to install:
 
-  sudo apt-get install mysql
+  sudo apt-get install mysql-server
+
+  sudo apt-get install python3-pip
 
   sudo apt-get install python-redis
 	
@@ -36,6 +38,8 @@ type command in terminal to install:
   sudo pip3 install flask-sqlalchemy
 	
   sudo pip3 install flask-script
+  
+  sudo pip3 install flask-wtf
 
 	
   mysql -u root -p
